@@ -17,12 +17,14 @@ All text above, and the splash screen must be included in any redistribution
 *********************************************************************/
 #ifndef _Adafruit_SSD1306_H_
 #define _Adafruit_SSD1306_H_
+#include <inttypes.h>
+typedef bool boolean;
 
 #if ARDUINO >= 100
  #include "Arduino.h"
  #define WIRE_WRITE Wire.write
 #else
- #include "WProgram.h"
+ //#include "WProgram.h"
   #define WIRE_WRITE Wire.send
 #endif
 
@@ -45,7 +47,6 @@ All text above, and the splash screen must be included in any redistribution
   typedef uint32_t PortMask;
 #endif
 
-#include <SPI.h>
 #include <Adafruit_GFX.h>
 
 #define BLACK 0

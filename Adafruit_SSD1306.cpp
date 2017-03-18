@@ -24,14 +24,8 @@ All text above, and the splash screen below must be included in any redistributi
  #define pgm_read_byte(addr) (*(const unsigned char *)(addr))
 #endif
 
-#if !defined(__ARM_ARCH) && !defined(ENERGIA) && !defined(ESP8266) && !defined(ESP32) && !defined(__arc__)
- #include <util/delay.h>
-#endif
-
 #include <stdlib.h>
 
-#include <Wire.h>
-#include <SPI.h>
 #include "Adafruit_GFX.h"
 #include "Adafruit_SSD1306.h"
 
@@ -192,18 +186,18 @@ void Adafruit_SSD1306::begin(uint8_t vccstate, uint8_t i2caddr, bool reset) {
 #endif
       }
     if (hwSPI){
-      SPI.begin();
+      //SPI.begin();
 #ifdef SPI_HAS_TRANSACTION
-      SPI.beginTransaction(SPISettings(8000000, MSBFIRST, SPI_MODE0));
+      //SPI.beginTransaction(SPISettings(8000000, MSBFIRST, SPI_MODE0));
 #else
-      SPI.setClockDivider (4);
+      //SPI.setClockDivider (4);
 #endif
     }
   }
   else
   {
     // I2C Init
-    Wire.begin();
+    //Wire.begin();
 #ifdef __SAM3X8E__
     // Force 400 KHz I2C, rawr! (Uses pins 20, 21 for SDA, SCL)
     TWI1->TWI_CWGR = 0;
@@ -320,10 +314,10 @@ void Adafruit_SSD1306::ssd1306_command(uint8_t c) {
   {
     // I2C
     uint8_t control = 0x00;   // Co = 0, D/C = 0
-    Wire.beginTransmission(_i2caddr);
-    Wire.write(control);
-    Wire.write(c);
-    Wire.endTransmission();
+    //Wire.beginTransmission(_i2caddr);
+    //Wire.write(control);
+    //Wire.write(c);
+    //Wire.endTransmission();
   }
 }
 
@@ -469,14 +463,14 @@ void Adafruit_SSD1306::display(void) {
     // I2C
     for (uint16_t i=0; i<(SSD1306_LCDWIDTH*SSD1306_LCDHEIGHT/8); i++) {
       // send a bunch of data in one xmission
-      Wire.beginTransmission(_i2caddr);
-      WIRE_WRITE(0x40);
+      //Wire.beginTransmission(_i2caddr);
+      //WIRE_WRITE(0x40);
       for (uint8_t x=0; x<16; x++) {
-        WIRE_WRITE(buffer[i]);
+        //WIRE_WRITE(buffer[i]);
         i++;
       }
       i--;
-      Wire.endTransmission();
+      //Wire.endTransmission();
     }
 #ifdef TWBR
     TWBR = twbrbackup;
@@ -486,14 +480,14 @@ void Adafruit_SSD1306::display(void) {
 
 // clear everything
 void Adafruit_SSD1306::clearDisplay(void) {
-  memset(buffer, 0, (SSD1306_LCDWIDTH*SSD1306_LCDHEIGHT/8));
+  //memset(buffer, 0, (SSD1306_LCDWIDTH*SSD1306_LCDHEIGHT/8));
 }
 
 
 inline void Adafruit_SSD1306::fastSPIwrite(uint8_t d) {
 
   if(hwSPI) {
-    (void)SPI.transfer(d);
+    //(void)SPI.transfer(d);
   } else {
     for(uint8_t bit = 0x80; bit; bit >>= 1) {
 #ifdef HAVE_PORTREG
